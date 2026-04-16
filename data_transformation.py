@@ -1,21 +1,18 @@
 from datasets import load_dataset
 import pandas as pd
+import tiktoken
 
-# Set options to display everything
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_colwidth', None)
+def get_conversations():
+    ds = load_dataset("goendalf666/sales-conversations")
+    df = pd.DataFrame(ds["train"])
+    df["conversation"] = df.apply(lambda x: '\n'.join(value for value in x if not pd.isnull(value)), axis=1)
+    df = df[["conversation"]]
+    return df
+
+def get_token_count(df):
+    enc = tiktoken.get_encoding("cl100k_base")
+    tokens = df["conversation"].apply(lambda x: len(enc.encode(x)))
+    avg_tokens = tokens.mean()
+    return avg_tokens
 
 
-ds = load_dataset("goendalf666/sales-conversations")
-
-df = pd.DataFrame(ds["train"])
-# print(df.head())
-
-df["conversation"] = df.apply(lambda x: '\n'.join(value for value in x if not pd.isnull(value)), axis=1)
-    
-print(df["conversation"].head())
-
-df = df[["conversation"]]
-
-print(df["conversation"][0])

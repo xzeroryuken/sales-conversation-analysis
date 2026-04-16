@@ -1,8 +1,15 @@
 from groq import Groq
+from dotenv import load_dotenv
+import os
 
-client = Groq()
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+model = os.getenv("model")
+
+client = Groq(api_key=api_key)
 completion = client.chat.completions.create(
-    model="openai/gpt-oss-120b",
+    model=model,
     messages=[
       {
         "role": "user",
@@ -13,7 +20,7 @@ completion = client.chat.completions.create(
     max_completion_tokens=8192,
     top_p=1,
     reasoning_effort="medium",
-    stream=True,
+    stream=False,
     stop=None
 )
 
