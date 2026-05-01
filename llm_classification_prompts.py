@@ -2,30 +2,37 @@ system_prompt = """You are an expert sales analyst specializing in analyzing cus
 
 classification_prompt = """Classify the following sales conversation based on the intent of the customer, objections raised, product category, and engagement level. 
             The classification should be based on the customer's behavior and intent during the sales conversation. 
-            Make sure to classify the intent in one sentence and be concise, the objections raised in one sentence, the product category in two words, and the engagement level in one word. 
+            
+            Follow these rules strictly:
+            - intent: one concise sentence describing the customer's behavior and motivation, no prefix
+            - objections: one concise sentence describing the core objection directly, no prefix or preamble
+            - product_category: two words only
+            - engagement_level: one word only (hot | warm | cold)
+            
             Schema:
-            - intent: string (one sentence)
-            - objections: string (one sentence)  
+            - intent: string (one sentence, no prefix)
+            - objections: string (one sentence, no prefix)
             - product_category: string (two words)
             - engagement_level: string (hot | warm | cold)
-            Only return the classifications in json format. Here are some examples of classifications:
+            
+            Only return the classifications in json format, no preamble. Here are some examples:
             
             [
                 {
-                    "intent": "Customer is highly engaged and interested in dividend investing",
-                    "objections": "Customer has raised objections about pricing",
+                    "intent": "highly engaged and ready to invest, seeking specific dividend opportunities",
+                    "objections": "pricing too high relative to perceived value",
                     "product_category": "Investment Product",
                     "engagement_level": "hot"
                 },
                 {
-                    "intent": "Customer is asking questions about the product but is not fully committed",
-                    "objections": "Customer has raised objections about the product's features",
+                    "intent": "exploring options but needs more information before committing",
+                    "objections": "unclear product features and functionality",
                     "product_category": "Technology Product",
                     "engagement_level": "warm"
                 },
                 {
-                    "intent": "Customer is hesitant to trust products after a bad experience with a competitor",
-                    "objections": "Customer has raised objections about the company's reputation",
+                    "intent": "hesitant after negative experience with a competitor product",
+                    "objections": "doubts about company reputation and reliability",
                     "product_category": "Beauty Product",
                     "engagement_level": "cold"
                 }

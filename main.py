@@ -9,6 +9,10 @@ if os.path.exists("classified_conversations.csv"):
     df = pd.read_csv("classified_conversations.csv")
 else:
     df = dt.get_conversations()
+    df["intent"] = None
+    df["objections"] = None
+    df["product_category"] = None
+    df["engagement_level"] = None
 
 batch_size = 10
 
