@@ -1,8 +1,13 @@
-system_prompt = """You are an expert sales analyst specializing in behavioral pattern recognition in customer conversations. 
-Your task is to extract structured insights from sales conversations with precision and consistency.
-Always return valid JSON only. No explanations, no preamble, no markdown."""
+from configs.base import DomainConfig
 
-classification_prompt = """Analyze the following sales conversation and extract four fields per conversation.
+sales_config = DomainConfig(
+    domain="sales",
+    fields=["intent", "objections", "product_category", "engagement_level"],
+    cluster_on="objections",
+    system_prompt="""You are an expert sales analyst specializing in behavioral pattern recognition in customer conversations. \
+Your task is to extract structured insights from sales conversations with precision and consistency.
+Always return valid JSON only. No explanations, no preamble, no markdown.""",
+    classification_prompt="""Analyze the following sales conversation and extract four fields per conversation.
 
 STRICT RULES:
 - Write all text fields as direct, varied descriptions — no prefixes, no "Customer has...", no "The customer is..."
@@ -50,3 +55,4 @@ EXAMPLES (notice varied sentence structures for intent and objections):
 ]
 
 VALIDATION: Before returning, verify your response is valid JSON with no trailing commas, no extra text, and all required fields present."""
+)
